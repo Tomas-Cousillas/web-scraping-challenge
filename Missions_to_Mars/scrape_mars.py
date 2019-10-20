@@ -57,7 +57,12 @@ def scrape():
     url4 = 'https://space-facts.com/mars/'
     #use pandas to scrape url
     tables = pd.read_html(url4)
-    mars_data["tables"] = tables
+    mars_facts = pd.DataFrame(tables[0])
+    mars_facts.columns = ['Mars - Earth Comparison','Mars','Data']
+    mars_facts = mars_facts.set_index("Mars")
+    mars_facts = mars_facts.to_html()
+    mars_facts = mars_facts.replace('\n', ' ')
+    mars_data["mars_facts"] = mars_facts
    
     #Scrape for featured Image
     url3 = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -98,7 +103,7 @@ def scrape():
         hemisphere_image_url.append(dictionary)
         browser.back()  
     
-    mars_data['hempispher_image'] = hemisphere_image_url
+    mars_data['hemisphere_image'] = hemisphere_image_url
     return mars_data
 
 
